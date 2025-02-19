@@ -1,11 +1,15 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro'
+import { createUser } from '../queries/insert'
+import { getUsers } from '../queries/select'
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const users = await getUsers()
+const [{ name }] = users
+if (users.length === 0) {
+	await createUser({ age: 1, email: 'qwer@qwer', name: 'qwer' })
+}
 ---
 
-<Layout>
-	<Welcome />
+<Layout pageTitle={'Home Page'}>
+	<div>{name}</div>
 </Layout>
